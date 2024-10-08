@@ -6,8 +6,6 @@ import MovieDetails from "./pages/MovieDetails";
 
 import "./App.css";
 
-// Api key = 7623ff9d25d3ceb616f45fb343789764
-
 const App = () => {
   return (
     <Routes>
