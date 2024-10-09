@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { getPopularMovies } from "../services/getMovies";
 import Notiflix from "notiflix";
+import MovieList from "../components/MovieList/MovieList";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -22,12 +23,9 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <h1>Trending today:</h1>
-      {movies?.map((movie) => (
-        <li key={movie.id}>{movie.title}</li>
-      ))}
-    </>
+    <main>
+      <MovieList movies={movies} />
+    </main>
   );
 };
 
