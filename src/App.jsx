@@ -1,13 +1,17 @@
+import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Layout from "./components/Layout/Layout";
-import NotFound from "./components/NotFound/NotFound";
-import MovieCast from "./components/MovieCast/MovieCast";
-import MovieReviews from "./components/MovieReviews/MovieReviews";
+import Layout from "./components/Layout/Layout"; // мы не загружаем асинхронно
+import NotFound from "./components/NotFound/NotFound"; // загружаем асинхроно??
 
-import Home from "./pages/home";
-import Movies from "./pages/Movies";
-import MovieDetails from "./pages/MovieDetails";
+const HomePage = lazy(() => import("./pages/HomePage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage"));
+const MovieDetailsPage = lazy(() => import("./pages/MovieDetailsPage"));
+
+const MovieCast = lazy(() => import("./components/MovieCast/MovieCast"));
+const MovieReviews = lazy(() =>
+  import("./components/MovieReviews/MovieReviews")
+);
 
 import "./App.css";
 
@@ -15,9 +19,9 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="movies" element={<Movies />} />
-        <Route path="movies/:movieId" element={<MovieDetails />}>
+        <Route index element={<HomePage />} />
+        <Route path="movies" element={<MoviesPage />} />
+        <Route path="movies/:movieId" element={<MovieDetailsPage />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>

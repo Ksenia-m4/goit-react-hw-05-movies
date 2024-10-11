@@ -38,7 +38,6 @@ async function getMovieCast(movieId) {
   // movie/917496/credits?api_key=7623ff9d25d3ceb616f45fb343789764
   try {
     const response = await axios.get(`movie/${movieId}/credits`, { params });
-    console.log(response);
     return response.data.cast;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -60,4 +59,26 @@ async function getMovieReviews(movieId) {
   }
 }
 
-export { getPopularMovies, getMovieById, getMovieCast, getMovieReviews };
+async function getMovie(query) {
+  const params = {
+    api_key: API_KEY,
+    query,
+  };
+  // search/movie
+
+  try {
+    const response = await axios.get("search/movie", { params });
+    return response.data.results;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Error("Failed to fetch data from API");
+  }
+}
+
+export {
+  getPopularMovies,
+  getMovieById,
+  getMovieCast,
+  getMovieReviews,
+  getMovie,
+};

@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 
 import Notiflix from "notiflix";
 
 import { getMovieById } from "../services/getMovies";
 
-const MovieDetails = () => {
+const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState(null);
+  const location = useLocation();
+  const backLinkLocation = useRef(location.state?.from ?? "/movies");
+
+  console.log("backLinkLocation :>> ", backLinkLocation);
 
   useEffect(() => {
     async function fetchMovieById() {
       try {
-        const movie = await getMovieById(movieId);
-        setMovie(movie);
+        const movieData = await getMovieById(movieId);
+        setMovie(movieData);
       } catch {
         Notiflix.Notify.failure(
-          "Failed to load movies. Please try again later."
+          "Failed to load movie details. Please try again later."
         );
       }
     }
@@ -24,17 +28,23 @@ const MovieDetails = () => {
     fetchMovieById();
   }, [movieId]);
 
+  if (!movie) {
+    return <p>Loading...</p>; // Состояние загрузки
+  }
+
   return (
     movie && (
-      <main>
+      <>
         <div className="movie-details">
-          <button className="back-button">&larr; Go back</button>
+          <Link to={backLinkLocation.current} className="back-button">
+            &larr; Go back
+          </Link>
 
           <div className="movie-container">
             <div className="img-thmb">
               <img
                 width="300px"
-                src={`http://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                 alt={movie.title}
                 className="movie-poster"
               />
@@ -70,11 +80,12 @@ const MovieDetails = () => {
             </ul>
           </div>
         </div>
-
-        <Outlet />
-      </main>
+        <Suspense fallback={<div>Loading subpage...</div>}>
+          <Outlet />
+        </Suspense>
+      </>
     )
   );
 };
 
-export default MovieDetails;
+export default MovieDetailsPage;
