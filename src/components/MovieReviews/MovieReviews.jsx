@@ -10,9 +10,11 @@ import { getMovieReviews } from "../../services/getMovies";
 const MovieReviews = () => {
   const { movieId } = useParams();
   const [reviewList, setReviewList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchMovieReviews() {
+      setIsLoading(true);
       try {
         const reviewList = await getMovieReviews(movieId);
         setReviewList(reviewList);
@@ -20,6 +22,8 @@ const MovieReviews = () => {
         Notiflix.Notify.failure(
           "Failed to load reviews. Please try again later."
         );
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -28,16 +32,20 @@ const MovieReviews = () => {
 
   return (
     <>
-      <h3> Reviews</h3>
-      {reviewList?.length === 0 ? (
-        <p>We don`t have any reviews for this movie</p>
+      <h3>Reviews</h3>
+      {isLoading ? (
+        <p>Loading reviews...</p>
+      ) : reviewList.length > 0 ? (
+        <ul>
+          {reviewList.map((review) => (
+            <li key={review.id}>
+              <p>{review.author}</p>
+              <p>{review.content}</p>
+            </li>
+          ))}
+        </ul>
       ) : (
-        reviewList.map((review) => (
-          <li key={review.id}>
-            <p>{review.author}</p>
-            <p>{review.content}</p>
-          </li>
-        ))
+        <p>We don`t have any reviews for this movie</p> // Показать только после завершения загрузки
       )}
     </>
   );
