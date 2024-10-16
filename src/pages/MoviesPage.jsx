@@ -7,19 +7,19 @@ import { ContextAlert } from "../context/ContextProvider";
 
 import MovieList from "../components/MovieList/MovieList";
 import Searchbox from "../components/SearchBox/Searchbox";
-// import { Loader } from "../components/Loader/Loader";
+import { Loader } from "../components/Loader/Loader";
 
 const MoviesPage = () => {
   const [query, setQuery] = useState("");
   const { movies, setMovies } = useContext(ContextAlert);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!query) return;
 
     async function fetchMovies() {
       try {
-        // setIsLoading(true);
+        setIsLoading(true);
         const fetchedMovies = await getMovie(query);
         if (fetchedMovies.length === 0) {
           Notiflix.Notify.failure("No movies found for this query.");
@@ -31,7 +31,7 @@ const MoviesPage = () => {
           "Failed to load movies. Please try again later."
         );
       } finally {
-        // setIsLoading(false);
+        setIsLoading(false);
       }
     }
 
@@ -46,7 +46,7 @@ const MoviesPage = () => {
     <>
       <Searchbox onSubmit={handleSubmit}></Searchbox>
 
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       {movies.length > 0 && <MovieList movies={movies} />}
     </>
   );

@@ -1,7 +1,15 @@
-import Notiflix from "notiflix";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { CiSearch } from "react-icons/ci";
+
+import Notiflix from "notiflix";
+import PropTypes from "prop-types";
+
+import {
+  SearchboxButton,
+  SearchboxForm,
+  SearchboxInput,
+} from "./Searchbox.styled";
 
 const Searchbox = ({ onSubmit }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,16 +38,18 @@ const Searchbox = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <SearchboxForm onSubmit={handleSubmit}>
+      <SearchboxInput
         type="text"
         autoFocus
         placeholder="Search movies"
         onChange={handleChange}
         value={inputValue}
       />
-      <button type="submit">Search</button>
-    </form>
+      <SearchboxButton type="submit">
+        <CiSearch size={24} />
+      </SearchboxButton>
+    </SearchboxForm>
   );
 };
 

@@ -1,15 +1,37 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../Header/Header";
+import { Container, Header, HeaderLink, Navigation } from "./Layout.styled";
 
+import { Loader } from "./../Loader/Loader";
 const Layout = () => {
   return (
     <main>
-      <Header />
+      <Header>
+        <Navigation>
+          <HeaderLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "nav-link active" : "nav-link"
+            }
+          >
+            Home
+          </HeaderLink>
+          <HeaderLink
+            to="/movies"
+            className={({ isActive }) =>
+              isActive ? "nav-link active" : "nav-link"
+            }
+          >
+            Movies
+          </HeaderLink>
+        </Navigation>
+      </Header>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
+      <Container>
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
+      </Container>
     </main>
   );
 };

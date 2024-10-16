@@ -4,7 +4,7 @@ import { Spinner } from "./LoaderStyled";
 export const Loader = () => {
   return (
     <Spinner>
-      <Circles height="80" width="80" ariaLabel="loading" color="#3f51b5" />
+      <Circles height="80" width="80" ariaLabel="loading" color="#c00" />
     </Spinner>
   );
 };

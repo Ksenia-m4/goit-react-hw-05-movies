@@ -1,11 +1,10 @@
-// /movies/:movieId/reviews - компонент Reviews, информация об обзорах. Рендерится на странице MovieDetails.
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Notiflix from "notiflix";
 
 import { getMovieReviews } from "../../services/getMovies";
+import { ReviewsAuthor, ReviewsItem, ReviewsList } from "./MovieReviews.styled";
 
 const MovieReviews = () => {
   const { movieId } = useParams();
@@ -32,18 +31,17 @@ const MovieReviews = () => {
 
   return (
     <>
-      <h3>Reviews</h3>
       {isLoading ? (
         <p>Loading reviews...</p>
       ) : reviewList.length > 0 ? (
-        <ul>
+        <ReviewsList>
           {reviewList.map((review) => (
-            <li key={review.id}>
-              <p>{review.author}</p>
+            <ReviewsItem key={review.id}>
+              <ReviewsAuthor>Author: {review.author}</ReviewsAuthor>
               <p>{review.content}</p>
-            </li>
+            </ReviewsItem>
           ))}
-        </ul>
+        </ReviewsList>
       ) : (
         <p>We don`t have any reviews for this movie</p> // Показать только после завершения загрузки
       )}

@@ -2,6 +2,13 @@ import Notiflix from "notiflix";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieCast } from "../../services/getMovies";
+import {
+  CastActor,
+  CastActorCaracter,
+  CastImgThumn,
+  CastItem,
+  CastList,
+} from "./MovieCast.styled";
 
 const MovieCast = () => {
   const { movieId } = useParams();
@@ -26,25 +33,29 @@ const MovieCast = () => {
 
   return (
     <>
-      <h3>
-        Top Billed Cast <span>({castList.length})</span>
-      </h3>
-
       {isLoading ? (
         <p>Loading cast...</p>
       ) : castList.length > 0 ? (
-        <ul>
-          {castList.map((actor) => (
-            <li key={actor.id}>
-              <img
-                src={`http://image.tmdb.org/t/p/w200/${actor.profile_path}`}
-                alt={actor.name}
-              />
-              <p>{actor.name}</p>
-              <p>Character: {actor.character}</p>
-            </li>
-          ))}
-        </ul>
+        <>
+          <CastList>
+            {castList.map((actor) => (
+              <CastItem key={actor.id}>
+                <CastImgThumn>
+                  <img
+                    src={`http://image.tmdb.org/t/p/w200/${actor.profile_path}`}
+                    alt={actor.name}
+                  />
+                </CastImgThumn>
+                <div>
+                  <CastActor>{actor.name}</CastActor>
+                  <CastActorCaracter>
+                    Character: {actor.character}
+                  </CastActorCaracter>
+                </div>
+              </CastItem>
+            ))}
+          </CastList>
+        </>
       ) : (
         <p>No cast information available.</p>
       )}

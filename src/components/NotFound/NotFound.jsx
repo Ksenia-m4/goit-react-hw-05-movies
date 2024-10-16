@@ -1,5 +1,18 @@
+import {
+  NotFoundContainer,
+  NotFoundLink,
+  NotFoundMessage,
+  NotFoundTitle,
+} from "./NotFound.styled";
+
 const NotFound = () => {
-  return <div>NotFound</div>;
+  return (
+    <NotFoundContainer>
+      <NotFoundTitle>404</NotFoundTitle>
+      <NotFoundMessage>Page Not Found</NotFoundMessage>
+      <NotFoundLink href="/">Go to Home page</NotFoundLink>
+    </NotFoundContainer>
+  );
 };
 
 export default NotFound;
